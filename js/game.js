@@ -5,9 +5,9 @@ var game = new Phaser.Game(480, 360, Phaser.AUTO, null, 'gameDiv');
 //add each game state
 
 game.state.add('boot', bootState);
-game.state.add('load', bootState);
-game.state.add('title', bootState);
-game.state.add('play', bootState);
+game.state.add('load', loadState);
+game.state.add('title', titleState);
+game.state.add('play', playState);
 
 //call teh boot state
 game.state.start('boot');
