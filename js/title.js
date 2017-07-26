@@ -2,9 +2,9 @@
 
 var titleState = {
     create: function(){
-        var nameLabel = game.add.text(160, 80, "Click anywhere to start",
-        {font: '14px Space Mono', fill: '#ffff00'} );
-        game.input.activePointer.capture = true;
+        // var nameLabel = game.add.text(160, 80, "Click anywhere to start",
+        // {font: '14px Space Mono', fill: '#ffff00'} );
+        // game.input.activePointer.capture = true;
         game.state.start('play')
     },
     update: function(){
