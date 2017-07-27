@@ -1,11 +1,24 @@
 //play state
 var cursors;
+var map;
 var playState={
     player: null,
     mob: null,
+    layer: null,
 
     create: function(){
         var self = this;
+
+        map = game.add.tilemap('level', 16, 16);
+        map.addTilesetImage('tiles');
+        map.setCollisionBetween(54, 62);
+
+        // map.setCollision([54, 55, 56, 57, 58, 59, 60, 61, 62]);
+        self.layer = map.createLayer(0);
+        // this.layer.debug = true;
+        self.layer.resizeWorld();
+
+
         cursors = game.input.keyboard.createCursorKeys(game);
         self.player = new Player(300,200);
         game.add.existing(self.player);
@@ -34,6 +47,7 @@ var playState={
             self.player.stop();
         });
         self.player.update();
+        game.physics.arcade.collide(self.player, self.layer);
     }
 }
 

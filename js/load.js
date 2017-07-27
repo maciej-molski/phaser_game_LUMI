@@ -12,6 +12,8 @@ var loadState={
         /**** Load graphics assets ****/
         game.load.spritesheet('characters', 'assets/sprites/metalslug_monster39x40.png', 39, 40);
         game.load.spritesheet('enemies', 'assets/sprites/metalslug_mummy37x45.png', 37, 45);
+        game.load.tilemap('level', 'assets/maps/untitled..csv', null, Phaser.Tilemap.CSV);
+        game.load.image('tiles', 'assets/maps/catastrophi_tiles_16.png');
         /**** Load audio assets ****/
 
     },
