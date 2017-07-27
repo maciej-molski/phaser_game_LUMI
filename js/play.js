@@ -1,31 +1,14 @@
 //play state
 var cursors;
 var playState={
-    player: {
-        // xDest: null,
-        // yDest: null
-    },
-    enemy: {
-
-    },
+    player: null,
+    mob: null,
 
     create: function(){
         var self = this;
         cursors = game.input.keyboard.createCursorKeys(game);
 
-        self.player = game.add.sprite(100,100,'characters');
-        self.player.frame = 0;
-        game.add.existing(self.player);
-        self.player.anchor.setTo(0.5,1);
-        self.player.animations.add('wait', [0,1,2,3,4], 5);
 
-        self.enemy = game.add.sprite(200, 100, 'enemies');
-        self.enemy.frame = 14;
-        game.add.existing(self.enemy);
-        game.physics.enable(self.enemy, Phaser.Physics.ARCADE);
-        self.enemy.anchor.setTo(.5, 1);
-        self.enemy.scale.x = -1;
-        self.enemy.body.immovable = true;
 
         // game.input.activePointer.capture = true;
         game.physics.enable(self.player, Phaser.Physics.ARCADE);
@@ -41,50 +24,50 @@ var playState={
             self.stopplayer();
         });
         self.moveplayer();
-    },
-    moveplayer: function(){
+    }
+}
+
+function Player(x,y){
+    var player = game.add.sprite(x,y,'characters');
+
+    player.frame=0;
+    player.frame = 0;
+    player.anchor.setTo(0.5,1);
+    player.animations.add('wait', [0,1,2,3,4], 5);
+
+    player.update = function(){
         var self=this;
-        self.player.body.velocity.x=0;
-        self.player.body.velocity.y=0;
+        self.body.velocity.x=0;
+        self.body.velocity.y=0;
         if(cursors.right.isDown){
-            self.player.body.velocity.x = 80;
-            self.player.scale.x = 1;
+            self.body.velocity.x = 80;
+            self.scale.x = 1;
         }
         else if(cursors.left.isDown){
-            self.player.body.velocity.x = -80;
-            self.player.scale.x = -1;
+            self.body.velocity.x = -80;
+            self.scale.x = -1;
         }
         if(cursors.up.isDown){
-            self.player.body.velocity.y=-80;
+            self.body.velocity.y=-80;
         }
         else if(cursors.down.isDown){
-            self.player.body.velocity.y=80;
+            self.body.velocity.y=80;
         }
-        // if(Math.round(self.player.x/10) == Math.round(self.player.xDest/10)){
-        //     self.player.body.velocity.x = 0;
-        // }
-        // else if (Math.floor(self.player.x) < Math.floor(self.player.xDest)){
-        //     self.player.body.velocity.x = 80;
-        //     self.player.scale.x = 1;
-        // }
-        // else if (Math.floor(self.player.x) > Math.floor(self.player.xDest)){
-        //     self.player.body.velocity.x = -80;
-        //     self.player.scale.x = -1;
-        // }
-        // if(Math.round(self.player.y/10) == Math.round(self.player.yDest/10)){
-        //     self.player.body.velocity.y=0;
-        // }
-        // else if (Math.floor(self.player.y) < Math.floor(self.player.yDest)){
-        //     self.player.body.velocity.y = 80;
-        // }
-        // else if (Math.floor(self.player.y) > Math.floor(self.player.yDest)){
-        //     self.player.body.velocity.y = -80;
-        // }
-    },
-    stopplayer: function(){
-        var self = this;
-        self.player.xDest = self.player.x;
-        self.player.yDest = self.player.y;
-        self.player.body.velocity.x = self.player.body.velocity.y = 0;
     }
+    player.stop = function(){
+        var self = this;
+        self.body.velocity.x = self.body.velocity.y = 0;
+    }
+    return player;
+}
+
+function Enemy(x,y){
+    var enemy = game.add.sprite(x,y,'enemies');
+    
+    enemy.frame = 14;
+    game.add.existing(enemy);
+    game.physics.enable(enemy, Phaser.Physics.ARCADE);
+    enemy.anchor.setTo(.5, 1);
+    enemy.scale.x = -1;
+    enemy.body.immovable = true;
 }
