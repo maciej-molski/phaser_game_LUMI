@@ -5,39 +5,73 @@ var playState={
     player: null,
     mob: null,
     layer: null,
+    shadowTexture: null,
+    lightFlag: false,
 
     create: function(){
         var self = this;
 
-        map = game.add.tilemap('level', 16, 16);
+        map = game.add.tilemap('level', 8, 8);
         map.addTilesetImage('tiles');
-        map.setCollisionBetween(54, 62);
+        // map.setCollisionBetween(54, 62);
 
-        // map.setCollision([54, 55, 56, 57, 58, 59, 60, 61, 62]);
-        self.layer = map.createLayer(0);
+        map.setCollision([0]);
+        self.layer = map.createLayer(0, 320, 320);
         // this.layer.debug = true;
         self.layer.resizeWorld();
 
+        map.setTileIndexCallback(2, self.LightOn, this);
+        // map.setTileIndexCallback(1, self.LightOff, this);
+
 
         cursors = game.input.keyboard.createCursorKeys(game);
-        self.player = new Player(300,200);
+        self.player = new Player(200,200);
         game.add.existing(self.player);
         game.physics.enable(self.player, Phaser.Physics.ARCADE);
 
-        self.mob = game.add.group();
-        self.mob.add(Enemy(100,100));
-        self.mob.add(Enemy(200,100));
-        self.mob.add(Enemy(100,200));
-        self.mob.add(Enemy(200,200));
-        self.mob.add(Enemy(400,200));
-        self.mob.forEach(function(enemy,index){
-            game.physics.enable(enemy, Phaser.Physics.ARCADE);
-            enemy.body.immovable = true;
-        });
+        // self.mob = game.add.group();
+        // self.mob.add(Enemy(100,100));
+        // self.mob.add(Enemy(200,100));
+        // self.mob.add(Enemy(100,200));
+        // self.mob.add(Enemy(200,200));
+        // self.mob.forEach(function(enemy,index){
+        //     game.physics.enable(enemy, Phaser.Physics.ARCADE);
+        //     enemy.body.immovable = true;
+        // });
         //game.input.activePointer.capture = true;
+
+        // Create the shadow texture
+        this.shadowTexture = game.add.bitmapData(this.game.width, this.game.height);
+
+        // Create an object that will use the bitmap as a texture
+        var lightSprite = game.add.image(0, 0, this.shadowTexture);
+
+        // Set the blend mode to MULTIPLY. This will darken the colors of
+        // everything below this sprite.
+        lightSprite.blendMode = Phaser.blendModes.MULTIPLY;
+        console.log(self.lightFlag);
+        console.log()
+
+    },
+    LightOn: function(){
+        if(this.lightFlag == false){
+            this.shadowTexture.context.fillStyle = 'rgb(0, 0, 0)';
+            this.shadowTexture.context.fillRect(0, 0, this.game.width, this.game.height);
+            // console.log('lighton');
+            this.shadowTexture.dirty = true;
+            this.lightFlag = true;
+        }
+    },
+    LightOff: function(){
+            this.shadowTexture.context.fillStyle = 'rgb(255, 255, 255)';
+            this.shadowTexture.context.fillRect(0, 0, this.game.width, this.game.height);
+            // console.log('lightoff');
+            this.shadowTexture.dirty = true;
+            this.lightFlag = false;
     },
     update: function(){
         var self = this;
+        this.lightFlag = false;
         self.player.animations.play('wait');
         // if(game.input.activePointer.isDown){
         //     self.player.xDest = game.input.x;
@@ -48,6 +82,8 @@ var playState={
         });
         self.player.update();
         game.physics.arcade.collide(self.player, self.layer);
+        if(this.lightFlag==false){ self.LightOff(); }
+        // console.log('lightFlag: '+this.lightFlag);
     }
 }
 
@@ -56,8 +92,8 @@ function Player(x,y){
 
     player.frame=0;
     player.frame = 0;
-    player.anchor.setTo(0.5,1);
-    player.animations.add('wait', [0,1,2,3,4], 5);
+    player.anchor.setTo(0.5,0.5);
+    player.animations.add('wait', [0,1,2,3], 10);
 
     player.update = function(){
         var self=this;
@@ -121,12 +157,12 @@ function Enemy(x,y){
         // }
     }
 
-    enemy.update = function(){
-
-    }
-
-    enemy.stop = function (){
-
-    }
+    // enemy.update = function(){
+    //
+    // }
+    //
+    // enemy.stop = function (){
+    //
+    // }
     return enemy;
 }

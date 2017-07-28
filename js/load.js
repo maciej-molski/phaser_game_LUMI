@@ -10,10 +10,10 @@ var loadState={
         game.stage.backgroundColor = '#000000';
 
         /**** Load graphics assets ****/
-        game.load.spritesheet('characters', 'assets/sprites/metalslug_monster39x40.png', 39, 40);
+        game.load.spritesheet('characters', 'assets/sprites/dot8x8.png', 8, 8, 4);
         game.load.spritesheet('enemies', 'assets/sprites/metalslug_mummy37x45.png', 37, 45);
-        game.load.tilemap('level', 'assets/maps/untitled..csv', null, Phaser.Tilemap.CSV);
-        game.load.image('tiles', 'assets/maps/catastrophi_tiles_16.png');
+        game.load.tilemap('level', 'assets/maps/level1_lumi.csv', null, Phaser.Tilemap.CSV);
+        game.load.image('tiles', 'assets/sprites/tileset8x8.png');
         /**** Load audio assets ****/
 
     },

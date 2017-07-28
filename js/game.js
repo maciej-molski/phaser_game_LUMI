@@ -1,6 +1,6 @@
 //game.js
 
-var game = new Phaser.Game(480, 360, Phaser.AUTO, null, 'gameDiv');
+var game = new Phaser.Game(320, 320, Phaser.AUTO, null, 'gameDiv');
 // var keyboard = new Keyboard(game);
 
 //add each game state
